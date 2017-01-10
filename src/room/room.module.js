@@ -1,9 +1,12 @@
 /*
     游戏room的数据层
 */
-function Room() {
+function Room(opt, onwer) {
     this.playerList = [];
-
+    this.onwer = onwer;
+    for (var i in opt) {
+        this[i] = opt[i];
+    }
 }
 
 //添加玩家

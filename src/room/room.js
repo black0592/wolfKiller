@@ -5,32 +5,28 @@
 */
 var roomModule = require('./room.module.js');
 var event = require('events');
-var index = 1;
 
-function Room() {
+function Room(option, onwer) {
     this.on('playerIn', PlayerIn.bind(this));
     this.on('playerOut', PlayerOut.bind(this));
-    this.roomData = new roomModule();
+    this.roomData = new roomModule(option, onwer);
 
 }
 Room.prototype = new event();
 Room.prototype.constructor = event;
 //相应区域
 function PlayerIn(playerObj) {
-    //增加一个唯一标示id
-    playerObj.playerData.id = index;
-    index++;
     this.roomData.addPlayer(playerObj);
-    console.log("房间加入玩家", playerObj.playerData.name);
+    console.log(this.roomData.name, "房间加入玩家", playerObj.playerData.name);
     this.roomData.testFunc();
 }
 
 function PlayerOut(playerObj) {
     var name = playerObj.playerData.name;
     if (this.roomData.leavePlayer(playerObj)) {
-        console.log("玩家", name, "离开了房间");
+        console.log("玩家", name, "离开了房间", this.roomData.name);
     } else {
-        console.log("房间内没找到", name);
+        console.log("房间", this.roomData.name, "内没找到", name);
     }
 }
 
