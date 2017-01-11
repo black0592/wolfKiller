@@ -7,8 +7,6 @@ function Hall() {
     //告诉hell我进来了。
     this.on('playerIn', PlayerIn.bind(this));
     this.on('playerOut', PlayerOut.bind(this));
-    //注册socket事件
-    socket.on('disconnect', disconnect.bind(this));
 }
 Hall.prototype = new event();
 Hall.prototype.constructor = event;
@@ -20,17 +18,26 @@ function PlayerIn(playerObj) {
     index++;
     this.hallData.addPlayer(playerObj);
     console.log("大厅加入玩家", playerObj.playerData.name);
-    this.hallData.testFunc();
     //返回大厅信息
-    playerObj.emit('intoHall', { roomList: this.hallData.roomList, playerList: this.hallData.playerList });
+    var playerList = [];
+    for (var i in this.hallData.playerList) {
+        playerList[i] = this.hallData.playerList[i].playerData.name;
+    }
+    playerObj.socket.emit('intoHall', { roomList: this.hallData.roomList, playerList: playerList });
+    playerObj.socket.broadcast.emit('intoHall', { roomList: this.hallData.roomList, playerList: playerList });
 }
 
 function PlayerOut(playerObj) {
     var name = playerObj.playerData.name;
     if (this.hallData.leavePlayer(playerObj)) {
         console.log("玩家", name, "离开了大厅");
+        var playerList = [];
+        for (var i in this.hallData.playerList) {
+            playerList[i] = this.hallData.playerList[i].playerData.name;
+        }
+        playerObj.socket.broadcast.emit('intoHall', { roomList: this.hallData.roomList, playerList: playerList });
     } else {
-        console.log("大厅内没找到", name);
+        console.error("大厅内没找到", name);
     }
 }
 

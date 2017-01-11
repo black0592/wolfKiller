@@ -5,32 +5,44 @@
     <title>测试</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.css">
     <link rel="stylesheet" href="main.css">
 </head>
 
-<body ng-controller="mainController">
-    <p>服务器地址{{ip}}:{{port}}</p>
-    <h5>第一步骤：连接服务器</h5>
-    <button onclick="connectServer()">连接服务器</button>
-    <h5>第二步骤：登录</h5>
-    <input id="username">
-    <button onclick="loginServer()">登录服务器</button>
-    <h5>第三步骤：选择房间或者创建房间</h5>
-    <input placeholder="房间名称"><button>创建房间</button><br>
+<body>
+    <div id = "app">
+        <p>{{ message }}</p>
+        <p>服务器地址{{ip}}:{{port}}</p>
+        <h5>第一步骤：连接服务器</h5>
+        <button v-on:click="connectServer()">连接服务器</button>
+        <h5>第二步骤：登录</h5>
+        <input id="username" placeholder="用户名" v-model='username'>
+        <button v-on:click="loginServer()">登录服务器</button>
+        <h5>第三步骤：选择房间或者创建房间</h5>
+        <input placeholder="房间名称"><button>创建房间</button><br>
+        <div id="room-list-show">
+            <p>房间列表</p>
+            <ul>
+                <li v-for="item in roomList">{{item}}</li>
+            </ul>
+        </div>
+        <div id="room-info">
+            <p>房间信息</p>
+            <ul>
+                <li v-for="item in roomList">{{item}}</li>
+            </ul>
+        </div>
+        <div id="player-list">
+            <p>玩家列表</p>
+            <ul>
+                <li v-for="item in playerList">{{item}}</li>
+            </ul>
+        </div>
+    </div>
 
-    <div id="room-list-show">
-        <p>游戏大厅</p>
-        <ul>
-            <li ng-repeat="item in roomList">
-                {{item}}
-            </li>
-        </ul>
-    </div>
-    <div id="room-info">
-        <p>房间信息</p>
-    </div>
-    <script src="http://cdn.bootcss.com/angular.js/1.6.1/angular.min.js" charset="utf-8"></script>
     <script src="http://cdn.bootcss.com/socket.io/1.7.2/socket.io.min.js"></script>
+    <script src="http://cdn.bootcss.com/vue/2.1.8/vue.min.js" charset="utf-8"></script>
+    <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
     <script src="main.js"></script>
 </body>
 

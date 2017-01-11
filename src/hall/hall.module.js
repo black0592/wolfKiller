@@ -1,4 +1,4 @@
-var room = require('./src/room/room.js');
+var room = require('../room/room.js');
 
 function Hall() {
     //房间的列表
@@ -29,3 +29,5 @@ Hall.prototype.leavePlayer = function(p) {
     }
     return false;
 }
+
+module.exports = Hall;

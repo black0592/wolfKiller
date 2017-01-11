@@ -1,31 +1,39 @@
-var app = angular.module('app',[]);
-angular.element(document).ready(function () {
 
-    angular.bootstrap(document, ['app']);
+new Vue({
+    el:'#app',
+    data: {
+        message:'Hello World!',
+        ip:'http://127.0.0.1',
+        port:24110,
+        roomList:[],
+        playerList:[],
+        socket:null,
+        username:''
+    },
+    methods:{
+        onMessage:function(){
+            this.socket = io.connect( this.ip + ':' +  this.port);
+            this.socket.on('intoHall', function(data) {
+                console.log(data);
+                this.roomList = data.roomList;
+                this.playerList = data.playerList;
+                console.log("收到了消息");
+            }.bind(this));
+        },
+        connectServer:function(){
+            this.onMessage();
+            console.log("连接服务器");
+        },
+        loginServer:function(){
+            console.log('登录');
+            var name = this.username;
+            if (name.length == 0) { alert('请输入用户名'); return; }
+            this.socket.emit('login', { name: name });
+        }
+    }
 });
-app.controller('mainController',function($scope){
-    $scope.ip = 'http://127.0.0.1';
-    $scope.port = 24110;
-    $scope.roomList = ["邱上哲的房间","路人的房间"];
-    $scope.playerList = ["邱上哲","路人甲","路人乙"];
-    function onMessage(){
-        socket = io.connect($scope.ip + ':' + $scope.port);
-        socket.on('intoHall', function(data) {
-            $scope.roomList = data.roomList;
-            $scope.playerList = data.playerList;
-        });
-    }
-    $scope.connectServer = function() {
-        onMessage();
-        console.log("连接服务器");
-    }
-
-    $scope.loginServer = function() {
-        console.log('登录');
-        var name = document.getElementById('username').value;
-        if (name.length == 0) { alert('请输入用户名'); return; }
-        socket.emit('login', { name: name });
-    }
 
 
-})
+    function loginServer() {
+
+    }
