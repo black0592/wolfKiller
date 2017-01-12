@@ -5,12 +5,14 @@
 */
 var roomModule = require('./room.module.js');
 var event = require('events');
+var roomIndex = 0;
 
 function Room(option, onwer) {
     this.on('playerIn', PlayerIn.bind(this));
     this.on('playerOut', PlayerOut.bind(this));
+    option.roomId = roomIndex;
     this.roomData = new roomModule(option, onwer);
-
+    roomIndex++;
 }
 Room.prototype = new event();
 Room.prototype.constructor = event;

@@ -10,6 +10,7 @@ function Player(socket, data, hall) {
     this.hall.emit('playerIn', this);
     //注册socket事件
     socket.on('disconnect', disconnect.bind(this));
+    socket.on('createRoom', createRoom.bind(this));
 }
 Player.prototype = new event();
 Player.prototype.constructor = event;
@@ -20,5 +21,10 @@ function disconnect() {
     this.hall.emit('playerOut', this);
 }
 
+function createRoom(data) {
+    data.player = this;
+    this.playerData.hasRoom = true;
+    this.hall.emit('createRoom', data);
+}
 
 module.exports = Player;

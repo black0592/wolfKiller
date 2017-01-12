@@ -19,7 +19,7 @@
         <input id="username" placeholder="用户名" v-model='username'>
         <button v-on:click="loginServer()">登录服务器</button>
         <h5>第三步骤：选择房间或者创建房间</h5>
-        <input placeholder="房间名称"><button>创建房间</button><br>
+        <input placeholder="房间名称" v-model="roomName"><button v-on:click="createRoom()">创建房间</button><br>
         <div id="room-list-show">
             <p>房间列表</p>
             <ul>

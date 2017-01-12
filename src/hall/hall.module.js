@@ -9,10 +9,21 @@ function Hall() {
 
 
 Hall.prototype.createRoom = function(option) {
-    room = new room(option);
-    this.roomList.push(room);
+    var roomBuffer = new room(option);
+    this.roomList.push(roomBuffer);
 }
 
+Hall.prototype.deleteRoom = function(id) {
+    for (var i = 0; i < this.roomList.length; i++) {
+        if (this.roomList[i].roomData.id == id) {
+            this.roomList.splice(i, 1);
+            console.log("删除房间", id, '成功');
+            return true;
+        }
+    }
+    console.log("删除房间", id, '失败原因是没找到这个房间');
+    return false;
+}
 
 //添加玩家
 Hall.prototype.addPlayer = function(p) {

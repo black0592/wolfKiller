@@ -8,12 +8,13 @@ new Vue({
         roomList:[],
         playerList:[],
         socket:null,
-        username:''
+        username:'',
+        roomName:''
     },
     methods:{
         onMessage:function(){
             this.socket = io.connect( this.ip + ':' +  this.port);
-            this.socket.on('intoHall', function(data) {
+            this.socket.on('refesh', function(data) {
                 console.log(data);
                 this.roomList = data.roomList;
                 this.playerList = data.playerList;
@@ -29,6 +30,12 @@ new Vue({
             var name = this.username;
             if (name.length == 0) { alert('请输入用户名'); return; }
             this.socket.emit('login', { name: name });
+        },
+        createRoom:function(){
+            if(this.roomName.length == 0){alert('请输入房间名');return;}
+            this.socket.emit('createRoom',{
+                roomName:this.roomName
+            });
         }
     }
 });
