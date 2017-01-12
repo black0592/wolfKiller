@@ -23,13 +23,14 @@
         <div id="room-list-show">
             <p>房间列表</p>
             <ul>
-                <li v-for="item in roomList">{{item}}</li>
+                <li v-for="item in roomList">编号{{item.roomId}}=><button v-on:click='joinRoom(item.roomId)'>{{item.roomName}}</button></li>
             </ul>
         </div>
         <div id="room-info">
             <p>房间信息</p>
+            <p>{{roomInfo.roomname}}</p>
             <ul>
-                <li v-for="item in roomList">{{item}}</li>
+                <li v-for="item in roomInfo.playerList">编号：{{item.id}}=>{{item.name}}</li>
             </ul>
         </div>
         <div id="player-list">

@@ -7,6 +7,10 @@ new Vue({
         port:24110,
         roomList:[],
         playerList:[],
+        roomInfo:{
+            playerlist:[],
+            roomName:''
+        },
         socket:null,
         username:'',
         roomName:''
@@ -19,6 +23,12 @@ new Vue({
                 this.roomList = data.roomList;
                 this.playerList = data.playerList;
                 console.log("收到了消息");
+            }.bind(this));
+
+            this.socket.on('roomInfoRefresh', function(data) {
+                console.log(data);
+                this.roomInfo = data;
+                console.log("收到了消息roomInfoRefresh");
             }.bind(this));
         },
         connectServer:function(){
@@ -36,11 +46,12 @@ new Vue({
             this.socket.emit('createRoom',{
                 roomName:this.roomName
             });
+        },
+        joinRoom:function(id){
+            alert(id);
+            this.socket.emit('joinRoom',{
+                id:id
+            });
         }
     }
 });
-
-
-    function loginServer() {
-
-    }

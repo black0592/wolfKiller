@@ -8,8 +8,8 @@ function Hall() {
 }
 
 
-Hall.prototype.createRoom = function(option) {
-    var roomBuffer = new room(option);
+Hall.prototype.createRoom = function(option, io) {
+    var roomBuffer = new room(option, io);
     this.roomList.push(roomBuffer);
 }
 

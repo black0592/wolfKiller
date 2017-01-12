@@ -1,21 +1,30 @@
 /*
     游戏room的数据层
 */
-function Room(opt, onwer) {
+function Room(opt) {
     this.playerList = [];
-    this.onwer = onwer;
+    this.onwer = null;
+    this.name = null;
+    this.id = null;
     for (var i in opt) {
         this[i] = opt[i];
     }
+    console.log(opt.onwer);
+    opt.onwer.playerData.hasRoom = true;
 }
 
 //添加玩家
 Room.prototype.addPlayer = function(p) {
+    p.playerData.myRoomId = this.id;
+    p.playerData.inRoom = true;
+    p.socket.join(p.playerData.myRoomId);
     this.playerList.push(p);
 };
 
 //删除玩家
 Room.prototype.leavePlayer = function(p) {
+    p.playerData.hasRoom = false;
+    p.playerData.inRoom = false;
     for (var i = 0; i < this.playerList.length; i++) {
         if (this.playerList[i].playerData.id == p.playerData.id) {
             this.playerList.splice(i, 1);

@@ -11,6 +11,7 @@ function Player(socket, data, hall) {
     //注册socket事件
     socket.on('disconnect', disconnect.bind(this));
     socket.on('createRoom', createRoom.bind(this));
+    socket.on('joinRoom', joinRoom.bind(this));
 }
 Player.prototype = new event();
 Player.prototype.constructor = event;
@@ -22,9 +23,16 @@ function disconnect() {
 }
 
 function createRoom(data) {
+    if (this.playerData.hasRoom) return;
     data.player = this;
-    this.playerData.hasRoom = true;
     this.hall.emit('createRoom', data);
+}
+
+function joinRoom(data) {
+    if (this.playerData.inRoom) return;
+    data.player = this;
+    data.id = data.id;
+    this.hall.emit('joinRoom', data);
 }
 
 module.exports = Player;

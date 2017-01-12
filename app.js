@@ -3,9 +3,9 @@ var io = require('socket.io'),
 var playerObj = require('./src/player/player.js');
 var hall = require('./src/hall/hall.js');
 var logger = require('./src/tools/log.js');
-hall = new hall();
-var server = io(24110);
 
+var server = io(24110);
+hall = new hall(server);
 server.on('connection', function(socket) {
     socket.on('login', function(data) {
         new playerObj(socket, data, hall);
